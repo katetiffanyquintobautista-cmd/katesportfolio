@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#850e35" />
+    <meta
+      name="description"
+      content="Kate Tiffany Q. Bautista — UI/UX Designer and Developer portfolio."
+    />
+    <title>Portfolio — Kate Tiffany Q. Bautista</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      /* browsers without cross-page view transitions get a CSS/JS fade fallback (see portfolio.css) */
+      if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("no-vt");
+    </script>
+    <link rel="stylesheet" href="portfolio.css" />
+  </head>
+  <body id="top" data-page="home">
+    <div class="dashboard">
+      <aside class="sidebar" aria-label="Portfolio navigation">
+        <div class="sidebar-inner">
+          <a class="logo" href="#home" aria-label="Home">kate.</a>
+          <nav class="side-nav">
+            <a class="active" aria-current="page" href="#home" aria-label="Home" title="Home"><img src="Home.png" alt="" /></a>
+            <a href="#about" aria-label="About" title="About"><img src="About.png" alt="" /></a>
+            <a href="#work" aria-label="Work" title="Work"><img src="Work.png" alt="" /></a>
+            <a href="#skills" aria-label="Skills" title="Skills"><img src="Skills.png" alt="" /></a>
+            <a href="#contact" aria-label="Contact" title="Contact"><img src="Contact.png" alt="" /></a>
+          </nav>
+          <div class="avatar-mini" aria-label="Kate initials">K</div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="content-top">
+          <button class="star-btn" id="starBtn" aria-label="Click for a pink star shimmer" type="button">
+            <img src="star.png" alt="" />
+            <span class="star-spark" aria-hidden="true">✦</span>
+            <span class="star-spark" aria-hidden="true">✧</span>
+            <span class="star-spark" aria-hidden="true">✦</span>
+            <span class="star-spark" aria-hidden="true">✧</span>
+            <span class="star-spark" aria-hidden="true">✦</span>
+          </button>
+          <span class="status-pill"
+            ><span>●</span> Open to learning opportunities</span
+          >
+        </div>
+
+        <div id="home">
+          <div class="hero-layout">
+            <section class="hero-main">
+              <div class="hero-copy">
+                <div class="eyebrow reveal">UI/UX Designer & Developer</div>
+                <h1 class="reveal delay-1">
+                  Creative mind.<br /><em>Thoughtful design.</em
+                  ><br />Functional code.
+                </h1>
+                <p class="reveal delay-2">
+                  Hi, I'm Kate — a Computer Science student who loves turning
+                  ideas into clear, thoughtful, and user-friendly digital
+                  experiences.
+                </p>
+                <div class="actions reveal delay-3">
+                  <a class="btn btn-primary" href="#work"
+                    >Explore my work ↗</a
+                  ><a class="btn btn-light" href="#about">About me</a>
+                </div>
+              </div>
+              <img class="hero-photo" src="kate.png" alt="Kate Tiffany Bautista" />
+              <div class="float-chip chip-one">
+                CURRENT FOCUS<strong>UI/UX + Front-end</strong>
+              </div>
+              <div class="float-chip chip-two">
+                MY DESIGN MOOD<strong>Soft, simple, useful ♡</strong>
+              </div>
+            </section>
+
+            <aside class="right-column">
+              <div class="panel">
+                <div class="panel-title">
+                  <h3>Quick profile</h3>
+                  <span class="tiny-icons">✦ ✦ ✦</span>
+                </div>
+                <div class="location">
+                  <strong>Kate Tiffany Q. Bautista</strong>Fourth-year BS
+                  Computer Science student<br />Biliran Province State
+                  University – Main
+                </div>
+                <div class="tags" style="margin-top: 13px">
+                  <span class="tag">UI/UX</span
+                  ><span class="tag">Developer</span
+                  ><span class="tag">Student</span>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title">
+                  <h3>Creative space</h3>
+                  <span class="tiny-icons">● ● ●</span>
+                </div>
+                <div class="creative-playground" id="creativePlayground" aria-live="polite">
+                  <div class="creative-topline"><span><i class="creative-live-dot"></i> tiny idea lab</span><span id="vibeNumber">01 / 03</span></div>
+                  <div class="creative-idea" id="creativeIdea">Dream it.<br />Design it.</div>
+                  <p class="creative-subtitle" id="creativeSubtitle">A little corner for playful ideas, pretty pixels, and happy accidents.</p>
+                  <span class="creative-sticker sticker-star" id="creativeStar" aria-hidden="true">✦</span>
+                  <span class="creative-sticker sticker-heart" id="creativeHeart" aria-hidden="true">♡</span>
+                  <span class="sticker-flower" id="creativeFlower" aria-hidden="true">✿</span>
+                </div>
+                <div class="creative-footer">
+                  <div class="creative-swatches" aria-label="Current color palette"><span class="creative-swatch" style="background:#f7a9bd"></span><span class="creative-swatch" style="background:#c8a6e8"></span><span class="creative-swatch" style="background:#fff0d8"></span></div>
+                  <button class="creative-shuffle" id="shuffleCreative" type="button">Shuffle the vibes ↗</button>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="years">
+                  <div>
+                    <small>Current chapter</small><strong>2026</strong
+                    ><small>Learning · Designing · Building</small>
+                  </div>
+                  <div class="clock">✳</div>
+                </div>
+              </div>
+            </aside>
+          </div>
+          <div class="about-strip reveal">
+            <div class="mini-panel">
+              <small>Design focus</small><strong>Human-centered UI/UX</strong>
+            </div>
+            <div class="mini-panel">
+              <small>Development</small
+              ><strong>Web & computer-related work</strong>
+            </div>
+            <div class="mini-panel">
+              <small>Approach</small
+              ><strong>Curious, practical, creative</strong>
+            </div>
+          </div>
+        </div>
+
+        <section id="about" class="section-block">
+          <div class="section-heading reveal">
+            <div>
+              <div class="eyebrow">A little introduction</div>
+              <h2>Behind the <em>pixels.</em></h2>
+            </div>
+          </div>
+          <div class="about-card reveal">
+            <div class="quote-card">
+              <!-- Ilisi ang src sa imong picture (pananglitan: "my-photo.png") -->
+              <img class="quote-photo" src="tiffany.png" alt="Kate Tiffany Bautista" />
+              <div class="quote">
+                “I love making digital spaces feel a little more human.”
+              </div>
+              <small>A student, designer, and curious builder.</small>
+            </div>
+            <div class="about-text">
+              <p>
+                I'm a fourth-year Bachelor of Science in Computer Science
+                student at Biliran Province State University – Main. I'm
+                interested in the connection between design and technology:
+                understanding what people need, shaping intuitive interfaces,
+                and bringing those ideas to life on the web.
+              </p>
+              <p>
+                I enjoy exploring UI/UX design, prototyping in Figma, and
+                developing web projects. I also use generative AI as a helper in
+                my development process while continuing to learn, test, and
+                improve my work.
+              </p>
+              <div class="tags">
+                <span class="tag">Curious by nature</span
+                ><span class="tag">User-centered thinking</span
+                ><span class="tag">Creative problem-solving</span
+                ><span class="tag">Always learning</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="certificates" class="section-block">
+          <div class="section-heading reveal">
+            <div>
+              <div class="eyebrow">Qualifications & Achievements</div>
+              <h2>Certificates & <em>Recognitions.</em></h2>
+            </div>
+            <p class="section-description">
+            </p>
+          </div>
+
+          <div class="cert-marquee-container reveal">
+            <div class="cert-marquee-track">
+              
+              <!-- CARD 1 -->
+              <article class="skill cert-card-item">
+                <div class="cert-img-box">
+              <img src="digi-talino.png" alt="Be More Digi-TALINO Webinar Certificate" />  </div>
+                <h3>Be More Digi-TALINO Webinar</h3>
+                <p style="color: var(--pink); font-size: 0.72rem; margin-bottom: 6px;">Integrated OS · Sept 2025</p>
+                <p>Certificate of Participation for attending the digital skills webinar.</p>
+              </article>
+
+              <!-- CARD 2 -->
+              <article class="skill cert-card-item">
+                <div class="cert-img-box">
+                  <img src="tesda-online%20program.png" alt="Developing Designs for a Logo Certificate" />
+                </div>
+                <h3>Tesda Online Program</h3>
+                <p style="color: var(--pink); font-size: 0.72rem; margin-bottom: 6px;">Tesda · Oct 2026</p>
+                <p>Technical conference covering cloud technologies and developer tools.</p>
+              </article>
+
+              <!-- CARD 3 -->
+              <article class="skill cert-card-item">
+                <div class="cert-img-box">
+                  <img src="networking%20basics.png" alt="Networking Basics Certificate" />
+                </div>
+                <h3>Networking Basics</h3>
+                <p style="color: var(--pink); font-size: 0.72rem; margin-bottom: 6px;">Cisco · May 2026</p>
+                <p>Certification in fundamental networking concepts and protocols.</p>
+              </article>
+
+              <!-- CARD 4 -->
+              <article class="skill cert-card-item">
+                <div class="cert-img-box">
+                  <img src="unplugandunwind.png" alt="Seminar" />
+                </div>
+                <h3>Seminar</h3>
+                <p style="color: var(--pink); font-size: 0.72rem; margin-bottom: 6px;">BipSu · Feb 2024</p>
+                <p>Certificate of Participation for attending the seminar.</p>
+              </article>
+
+              <!-- CARD 5 -->
+              <article class="skill cert-card-item">
+                <div class="cert-img-box">
+                  <img src="thesis-preparation.png" alt="Thesis Preparation & Industry Practices" />
+                </div>
+                <h3>Thesis Preparation & Industry Practices</h3>
+                <p style="color: var(--pink); font-size: 0.72rem; margin-bottom: 6px;">Workshop · October 2025</p>
+                <p> Completed a seminar-workshop focused on thesis preparation, trending tools, and industry practices..</p>
+              </article>
+
+              <!-- CARD 6 -->
+              <article class="skill cert-card-item">
+                <div class="cert-img-box">
+                  <img src="skillquest.png" alt="Generative AI Literacy" />
+                </div>
+                <h3>Generative AI Literacy</h3>
+                <p style="color: var(--pink); font-size: 0.72rem; margin-bottom: 6px;">SkillQuest · 2026</p>
+                <p>Completion certificate for the Generative AI Literacy course.</p>
+              </article>
+
+            </div>
+          </div>
+        </section>
+
+        <section id="work" class="section-block">
+          <!-- Ang sulod sa Work naa sa work.html. Gi-load siya diri sa script sa ubos (workLoader),
+               mao nga usba ra ang work.html ug mo-update sad ang home page. -->
+          <div id="work-content" data-src="work.html">
+            <a class="back-link" href="#work">View my work →</a>
+          </div>
+        </section>
+
+        <section id="skills" class="section-block">
+          <div class="section-heading reveal">
+            <div>
+              <div class="eyebrow">My toolkit</div>
+              <h2>Skills I'm <em>growing.</em></h2>
+            </div>
+           
+          </div>
+          <div class="skills-grid">
+            <article class="skill reveal">
+              <div class="skill-icon">✳</div>
+              <h3>UI/UX Design</h3>
+              <p>
+                User flows, wireframes, interface layout, and usability-minded
+                design.
+              </p>
+            </article>
+            <article class="skill reveal delay-1">
+              <div class="skill-icon">F</div>
+              <h3>Figma</h3>
+              <p>
+                Prototyping, visual design, components, and design exploration.
+              </p>
+            </article>
+            <article class="skill reveal delay-2">
+              <div class="skill-icon">&lt;/&gt;</div>
+              <h3>Web Development</h3>
+              <p>
+                HTML, CSS, JavaScript, responsive layouts, and front-end
+                fundamentals.
+              </p>
+            </article>
+            <article class="skill reveal">
+              <div class="skill-icon">✎</div>
+              <h3>Visual Design</h3>
+              <p>
+                Color, typography, spacing, hierarchy, and consistent visual
+                systems.
+              </p>
+            </article>
+            <article class="skill reveal delay-1">
+              <div class="skill-icon">↗</div>
+              <h3>Problem Solving</h3>
+              <p>
+                Breaking tasks into smaller steps and improving through
+                feedback.
+              </p>
+            </article>
+            <article class="skill reveal delay-2">
+              <div class="skill-icon">AI</div>
+              <h3>AI-assisted Workflow</h3>
+              <p>
+                Using generative AI as a helper for learning, ideation, and
+                development.
+              </p>
+            </article>
+            <article class="skill reveal delay-3">
+              <div class="skill-icon">♡</div>
+              <h3>Collaboration</h3>
+              <p>
+                Communicating ideas, documenting work, and learning with a team.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="contact" class="section-block">
+          <div class="contact-card reveal">
+            <div>
+              <div class="eyebrow" style="color: var(--blush)">
+                Have a project in mind?
+              </div>
+              <h2>Let's make something <em>meaningful.</em></h2>
+              <p>
+                I'm open to learning opportunities, collaborations, internships,
+                and creative projects. Send me a message and let's connect.
+              </p>
+              <div class="tags" style="margin-top: 16px">
+                <a
+                  class="tag"
+                  href="https://www.mailto:katetiffanybautista@gmail.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  >Email ↗</a
+                ><a
+                  class="tag"
+                  href="https://github.com/katetiffanyquintobautista-cmd/"
+                  target="_blank"
+                  rel="noreferrer"
+                  >GitHub ↗</a
+                ><a
+                  class="tag"
+                  href="https://www.instagram.com/rable_tiff/"
+                  target="_blank"
+                  rel="noreferrer"
+                  >Instagram ↗</a
+                >
+              </div>
+            </div>
+            <div class="contact-actions">
+              <a
+                class="btn"
+                id="emailButton"
+                href="mailto:your.email@example.com?subject=Hello%20Kyla"
+                >Say hello ↗</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <span>© <span id="year"></span> Kate. Made with care ♡</span
+          ><a href="#top">Back to top ↑</a>
+        </footer>
+      </main>
+    </div>
+
+    <!-- SAY HELLO POP-UP -->
+    <div class="hello-modal" id="helloModal" role="dialog" aria-modal="true" aria-labelledby="helloTitle" aria-hidden="true">
+      <div class="hello-box" id="helloBox">
+        <button type="button" class="hello-close" id="helloClose" aria-label="Close">&times;</button>
+
+        <form class="hello-form" id="helloForm" novalidate>
+          <p class="hello-eyebrow">Say hello</p>
+          <h3 id="helloTitle">Leave me a <em>little note.</em></h3>
+          <p class="hello-sub">A letter, a kind word, or an idea — I'd love to read it.</p>
+
+          <span class="hello-label">I'm sending a…</span>
+          <div class="hello-kinds" role="radiogroup" aria-label="Type of message">
+            <span><input type="radio" name="kind" id="kind1" value="Letter" checked /><label for="kind1">💌 Letter</label></span>
+            <span><input type="radio" name="kind" id="kind2" value="Appreciation" /><label for="kind2">🌸 Appreciation</label></span>
+            <span><input type="radio" name="kind" id="kind3" value="Feedback" /><label for="kind3">✨ Feedback</label></span>
+            <span><input type="radio" name="kind" id="kind4" value="Idea" /><label for="kind4">🍓 Idea</label></span>
+          </div>
+
+          <label class="hello-label" for="helloName">Your name <span style="font-weight:400;opacity:.7">(optional)</span></label>
+          <input class="hello-field" id="helloName" name="name" type="text" maxlength="60" placeholder="e.g. Maria" autocomplete="name" />
+
+          <label class="hello-label" for="helloMsg">Your message</label>
+          <textarea class="hello-field" id="helloMsg" name="message" maxlength="1000" placeholder="Write your letter or appreciation here…"></textarea>
+          <div class="hello-count"><span id="helloCount">0</span> / 1000</div>
+          <p class="hello-error" id="helloError" role="alert"></p>
+
+          <div class="hello-actions">
+            <button type="submit" class="hello-send" id="helloSend">Send with love ♡</button>
+            <button type="button" class="hello-cancel" id="helloCancel">Cancel</button>
+          </div>
+        </form>
+
+        <div class="hello-thanks" id="helloThanks">
+          <span class="heart">💌</span>
+          <h3>Thank you!</h3>
+          <p class="hello-sub" id="helloThanksText">Your note means a lot.</p>
+          <div class="hello-actions" style="justify-content:center">
+            <button type="button" class="hello-cancel" id="helloDone">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PROJECT IMAGE POP-UP -->
+    <div class="pv-modal" id="pvModal" role="dialog" aria-modal="true" aria-labelledby="pvTitle" aria-hidden="true">
+      <div class="pv-box">
+        <button type="button" class="pv-close" id="pvClose" aria-label="Close">&times;</button>
+        <img class="pv-img" id="pvImg" src="" alt="" />
+        <div class="pv-body">
+          <h3 id="pvTitle"></h3>
+          <p id="pvDesc"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE POP-UP -->
+    <div class="cert-modal" id="certModal" role="dialog" aria-modal="true" aria-labelledby="certModalTitle" aria-hidden="true">
+      <div class="cert-modal-box">
+        <button type="button" class="cert-modal-close" id="certModalClose" aria-label="Close">&times;</button>
+        <img class="cert-modal-img" id="certModalImg" src="" alt="" />
+        <div class="cert-modal-body">
+          <h3 id="certModalTitle"></h3>
+          <p class="cert-modal-meta" id="certModalMeta"></p>
+          <p class="cert-modal-desc" id="certModalDesc"></p>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Sidebar navigation stays on this page and smoothly scrolls to each section.
+      document.querySelectorAll(".side-nav a, .sidebar .logo, .actions a, #work-content .back-link").forEach((link) => {
+        const targetId = (link.getAttribute("href") || "").split("#").pop();
+        if (!targetId || !document.getElementById(targetId)) return;
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          const target = document.getElementById(targetId);
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          history.replaceState(null, "", "#" + targetId);
+          document.querySelectorAll(".side-nav a").forEach((item) => {
+            const active = item.getAttribute("href") === "#" + targetId;
+            item.classList.toggle("active", active);
+            if (active) item.setAttribute("aria-current", "page");
+            else item.removeAttribute("aria-current");
+          });
+        });
+      });
+    </script>
+    <script src="portfolio.js"></script>
+  </body>
+</html>

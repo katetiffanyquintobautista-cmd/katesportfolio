@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#850e35" />
+    <meta
+      name="description"
+      content="Kate Tiffany Q. Bautista — UI/UX Designer and Developer portfolio."
+    />
+    <title>Contact — Kate Tiffany Q. Bautista</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      /* browsers without cross-page view transitions get a CSS/JS fade fallback (see portfolio.css) */
+      if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("no-vt");
+    </script>
+    <link rel="stylesheet" href="portfolio.css" />
+  </head>
+  <body id="top" data-page="contact">
+    <div class="dashboard">
+      <aside class="sidebar" aria-label="Portfolio navigation">
+        <div class="sidebar-inner">
+          <a class="logo" href="index.html" data-section="home" aria-label="Home">kate.</a>
+          <nav class="side-nav">
+            <a href="index.html" data-section="home" aria-label="Home" title="Home"><img src="Home.png" alt="" /></a>
+            <a href="about.html" data-section="about" aria-label="About" title="About"><img src="About.png" alt="" /></a>
+            <a href="work.html" data-section="work" aria-label="Work" title="Work"><img src="Work.png" alt="" /></a>
+            <a href="skills.html" data-section="skills" aria-label="Skills" title="Skills"><img src="Skills.png" alt="" /></a>
+            <a class="active" aria-current="page" href="contact.html" data-section="contact" aria-label="Contact" title="Contact"><img src="Contact.png" alt="" /></a>
+          </nav>
+          <div class="avatar-mini" aria-label="Kate initials">K</div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="content-top">
+          <a class="back-link" href="index.html" data-section="home"
+            >◀ &nbsp; Back to Home</a
+          >
+          <span class="status-pill"
+            ><span>●</span> Open to learning opportunities</span
+          >
+        </div>
+
+        <section id="contact" class="section-block">
+          <div class="contact-card reveal">
+            <div>
+              <div class="eyebrow" style="color: var(--blush)">
+                Have a project in mind?
+              </div>
+              <h2>Let's make something <em>meaningful.</em></h2>
+              <p>
+                I'm open to learning opportunities, collaborations, internships,
+                and creative projects. Send me a message and let's connect.
+              </p>
+              <div class="tags" style="margin-top: 16px">
+                <a
+                  class="tag"
+                  href="https://www.mailto:katetiffanybautista@gmail.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  >Email ↗</a
+                ><a
+                  class="tag"
+                  href="https://github.com/katetiffanyquintobautista-cmd/"
+                  target="_blank"
+                  rel="noreferrer"
+                  >GitHub ↗</a
+                ><a
+                  class="tag"
+                  href="https://www.instagram.com/rable_tiff/"
+                  target="_blank"
+                  rel="noreferrer"
+                  >Instagram ↗</a
+                >
+              </div>
+            </div>
+            <div class="contact-actions">
+              <a
+                class="btn"
+                id="emailButton"
+                href="mailto:your.email@example.com?subject=Hello%20Kyla"
+                >Say hello ↗</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <span>© <span id="year"></span> Kate. Made with care ♡</span
+          ><a href="#top">Back to top ↑</a>
+        </footer>
+      </main>
+    </div>
+    <div class="hello-modal" id="helloModal" role="dialog" aria-modal="true" aria-labelledby="helloTitle" aria-hidden="true">
+      <div class="hello-box" id="helloBox">
+        <button type="button" class="hello-close" id="helloClose" aria-label="Close">&times;</button>
+
+        <form class="hello-form" id="helloForm" novalidate>
+          <p class="hello-eyebrow">Say hello</p>
+          <h3 id="helloTitle">Leave me a <em>little note.</em></h3>
+          <p class="hello-sub">A letter, a kind word, or an idea — I'd love to read it.</p>
+
+          <span class="hello-label">I'm sending a…</span>
+          <div class="hello-kinds" role="radiogroup" aria-label="Type of message">
+            <span><input type="radio" name="kind" id="kind1" value="Letter" checked /><label for="kind1">💌 Letter</label></span>
+            <span><input type="radio" name="kind" id="kind2" value="Appreciation" /><label for="kind2">🌸 Appreciation</label></span>
+            <span><input type="radio" name="kind" id="kind3" value="Feedback" /><label for="kind3">✨ Feedback</label></span>
+            <span><input type="radio" name="kind" id="kind4" value="Idea" /><label for="kind4">🍓 Idea</label></span>
+          </div>
+
+          <label class="hello-label" for="helloName">Your name <span style="font-weight:400;opacity:.7">(optional)</span></label>
+          <input class="hello-field" id="helloName" name="name" type="text" maxlength="60" placeholder="e.g. Maria" autocomplete="name" />
+
+          <label class="hello-label" for="helloMsg">Your message</label>
+          <textarea class="hello-field" id="helloMsg" name="message" maxlength="1000" placeholder="Write your letter or appreciation here…"></textarea>
+          <div class="hello-count"><span id="helloCount">0</span> / 1000</div>
+          <p class="hello-error" id="helloError" role="alert"></p>
+
+          <div class="hello-actions">
+            <button type="submit" class="hello-send" id="helloSend">Send with love ♡</button>
+            <button type="button" class="hello-cancel" id="helloCancel">Cancel</button>
+          </div>
+        </form>
+
+        <div class="hello-thanks" id="helloThanks">
+          <span class="heart">💌</span>
+          <h3>Thank you!</h3>
+          <p class="hello-sub" id="helloThanksText">Your note means a lot.</p>
+          <div class="hello-actions" style="justify-content:center">
+            <button type="button" class="hello-cancel" id="helloDone">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="portfolio.js"></script>
+  </body>
+</html>

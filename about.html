@@ -23,6 +23,31 @@
       if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("no-vt");
     </script>
     <link rel="stylesheet" href="portfolio.css" />
+    <style>
+      .resume-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.25rem;
+        padding: 0.7rem 1.1rem;
+        border: 1px solid #850e35;
+        border-radius: 999px;
+        background: #850e35;
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+      .resume-btn:hover {
+        background: #a31849;
+        transform: translateY(-2px);
+      }
+      .resume-btn:focus-visible {
+        outline: 3px solid #e8a1ba;
+        outline-offset: 3px;
+      }
+    </style>
   </head>
   <body id="top" data-page="about">
     <div class="dashboard">
@@ -84,6 +109,9 @@
                 <span class="tag">Creative problem-solving</span>
                 <span class="tag">Always learning</span>
               </div>
+              <a class="resume-btn" href="Resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="View resume PDF in a new tab">
+                View Resume <span aria-hidden="true">↗</span>
+              </a>
             </div>
           </div>
         </section>

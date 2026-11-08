@@ -1447,12 +1447,11 @@ body.cert-open .cert-marquee-track { animation-play-state: paused; }
   scroll-padding-inline: 4px;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--pink) rgba(255, 245, 228, 0.08);
+  /* scrollbar hidden; swipe, drag, trackpad or shift+wheel still scroll the row */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-.project-grid.single::-webkit-scrollbar { height: 8px; }
-.project-grid.single::-webkit-scrollbar-track { background: rgba(255, 245, 228, 0.08); border-radius: 99px; }
-.project-grid.single::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 99px; }
+.project-grid.single::-webkit-scrollbar { display: none; width: 0; height: 0; }
 .project-grid.single .project-card {
   flex: 0 0 280px;
   width: 280px;
@@ -1628,4 +1627,107 @@ html.no-vt .content.is-leaving {
 }
 @media (prefers-reduced-motion: reduce) {
   html.no-vt .content { animation: none; }
+}
+
+/* =====================================================================
+   PROJECTS IN TABLETS
+   Must stay last in this file so it overrides the older .project-visual rules.
+   Keeps the side-by-side row; every card is the same size.
+   ===================================================================== */
+.project-grid.single { align-items: stretch; }
+.project-grid.single .project-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* no container: the tablet and its text sit straight on the page */
+  background: none;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  /* bigger, and the same size for every project */
+  flex: 0 0 380px;
+  width: 380px;
+  max-width: 380px;
+}
+.project-grid.single .project-card:hover { transform: none; box-shadow: none; }
+.project-grid.single .project-info {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.project-grid.single .project-info .tags { margin-top: auto; }
+
+/* the tablet (landscape) */
+.project-grid.single .project-visual {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  margin: 0 auto 16px;
+  border: 12px solid #1c141a;
+  border-radius: 26px;
+  box-shadow: 0 0 0 2px rgba(255, 196, 196, 0.35), 0 22px 40px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.project-card:hover .project-visual {
+  transform: translateY(-4px) rotate(-0.8deg);
+  box-shadow: 0 0 0 2px var(--pink), 0 28px 48px rgba(238, 105, 131, 0.25);
+}
+
+/* front camera dot */
+.project-grid.single .project-visual::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  width: 6px;
+  height: 6px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: #1c141a;
+  z-index: 3;
+}
+
+/* the screen: your screenshot fills the tablet, cropped from the top */
+.project-grid.single .project-visual .project-img { object-position: top center; }
+
+/* shown only when the screenshot is missing */
+.project-grid.single .project-visual .mock-window {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  transform: none;
+}
+
+@media (max-width: 600px) {
+  .project-grid.single .project-card { flex-basis: 270px; width: 270px; max-width: 270px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-grid.single .project-visual,
+  .project-card:hover .project-visual { transition: none; transform: none; }
+}
+
+/* =====================================================================
+   CERTIFICATES: auto-scroll + manual side-scroll, no scrollbar.
+   Works on every page that has the strip. The script in portfolio.js adds
+   .cert-js and moves the track with transform (so no scrollbar is involved).
+   If the script doesn't run, the original CSS marquee animation still plays.
+   ===================================================================== */
+.cert-marquee-container.cert-js {
+  overflow: hidden;
+  touch-action: pan-y;   /* vertical swipes scroll the page, horizontal ones move the strip */
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.cert-marquee-container.cert-js.is-dragging { cursor: grabbing; }
+.cert-marquee-container.cert-js .cert-marquee-track {
+  animation: none !important;
+  will-change: transform;
+}
+.cert-marquee-container.cert-js img {
+  -webkit-user-drag: none;
+  pointer-events: none;
 }

@@ -23,6 +23,84 @@
       if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("no-vt");
     </script>
     <link rel="stylesheet" href="portfolio.css" />
+    <style>
+      .social-links { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+      .social-icon {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 48px; height: 48px; border-radius: 50%;
+        color: #fff; background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+      }
+      .social-icon svg { width: 22px; height: 22px; }
+      .social-icon:hover { background: #f6c9d8; color: #850e35; transform: translateY(-3px); }
+      .social-icon:focus-visible { outline: 3px solid #e8a1ba; outline-offset: 3px; }
+
+      /* CHAT-BUBBLE ANIMATION (replaces the big ✳ in the contact card).
+         It rests in its idle pose; click / tap it to play: tap the heart -> bounce, once. */
+      .contact-card.has-chat:after { content: none; }
+      .contact-actions.with-chat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+      .chat-anim {
+        --chat-shift: 24px;                         /* nudge to the right */
+        background: none; border: 0; padding: 0; margin: 0; cursor: pointer;
+        width: 190px; max-width: 100%; line-height: 0;
+        transform: translateX(var(--chat-shift));
+        -webkit-tap-highlight-color: transparent;
+      }
+      .chat-anim:focus-visible { outline: 3px solid #e8a1ba; outline-offset: 4px; border-radius: 16px; }
+      .chat-anim svg { width: 100%; height: auto; overflow: visible; display: block; transition: transform 0.2s ease; }
+      .chat-anim:hover svg { transform: translateY(-3px); }
+      .cb-float, .cb-jump, .cb-heart, .cb-spark, .cb-shadow { transform-box: fill-box; }
+      @media (max-width: 600px) { .chat-anim { width: 150px; --chat-shift: 14px; } }
+
+      /* resting state: gentle float only */
+      .cb-float  { animation: cbFloat 3s ease-in-out infinite; }
+      .cb-jump   { transform-origin: 50% 100%; }
+      .cb-heart, .cb-spark, .cb-shadow { transform-origin: 50% 50%; }
+      .cb-spark, .cb-motion, .cb-dust { opacity: 0; }
+      .cb-shadow { opacity: 0.35; }
+
+      /* played once per click: starts just before the heart pops */
+      .chat-anim.is-playing .cb-jump   { animation: cbJump 6s ease-in-out -2.5s 1 both; }
+      .chat-anim.is-playing .cb-heart  { animation: cbHeart 6s ease-in-out -2.5s 1 both; }
+      .chat-anim.is-playing .cb-spark  { animation: cbSpark 6s ease-out -2.5s 1 both; }
+      .chat-anim.is-playing .cb-motion { animation: cbMotion 6s ease-in-out -2.5s 1 both; }
+      .chat-anim.is-playing .cb-dust   { animation: cbDust 6s ease-out -2.5s 1 both; }
+      .chat-anim.is-playing .cb-shadow { animation: cbShadow 6s ease-in-out -2.5s 1 both; }
+
+      @keyframes cbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+      @keyframes cbJump {
+        0%, 56% { transform: translateY(0) scale(1, 1); }
+        59%     { transform: translateY(2px) scale(1.05, 0.94); }
+        64%     { transform: translateY(-26px) scale(0.96, 1.05); }
+        70%     { transform: translateY(0) scale(1.06, 0.93); }
+        74%     { transform: translateY(-9px) scale(0.99, 1.02); }
+        78%     { transform: translateY(0) scale(1.03, 0.97); }
+        82%, 100% { transform: translateY(0) scale(1, 1); }
+      }
+      @keyframes cbHeart {
+        0%, 46% { transform: scale(1); } 49% { transform: scale(0.84); }
+        53% { transform: scale(1.12); } 57%, 100% { transform: scale(1); }
+      }
+      @keyframes cbSpark {
+        0%, 48% { opacity: 0; transform: scale(0.7); }
+        51% { opacity: 1; transform: scale(1); }
+        58%, 100% { opacity: 0; transform: scale(1.18); }
+      }
+      @keyframes cbMotion { 0%, 60% { opacity: 0; } 63%, 67% { opacity: 1; } 72%, 100% { opacity: 0; } }
+      @keyframes cbDust   { 0%, 68% { opacity: 0; } 71% { opacity: 1; } 78%, 100% { opacity: 0; } }
+      @keyframes cbShadow {
+        0%, 56% { transform: scale(1); opacity: 0.35; } 64% { transform: scale(0.6); opacity: 0.18; }
+        70% { transform: scale(1.08); opacity: 0.42; } 74% { transform: scale(0.85); opacity: 0.28; }
+        78%, 100% { transform: scale(1); opacity: 0.35; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cb-float, .chat-anim.is-playing .cb-jump, .chat-anim.is-playing .cb-heart,
+        .chat-anim.is-playing .cb-spark, .chat-anim.is-playing .cb-motion, .chat-anim.is-playing .cb-dust,
+        .chat-anim.is-playing .cb-shadow { animation: none; }
+        .chat-anim svg { transition: none; }
+      }
+    </style>
   </head>
   <body id="top" data-page="contact">
     <div class="dashboard">
@@ -51,7 +129,7 @@
         </div>
 
         <section id="contact" class="section-block">
-          <div class="contact-card reveal">
+          <div class="contact-card has-chat reveal">
             <div>
               <div class="eyebrow" style="color: var(--blush)">
                 Have a project in mind?
@@ -61,29 +139,77 @@
                 I'm open to learning opportunities, collaborations, internships,
                 and creative projects. Send me a message and let's connect.
               </p>
-              <div class="tags" style="margin-top: 16px">
-                <a
-                  class="tag"
-                  href="https://www.mailto:katetiffanybautista@gmail.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  >Email ↗</a
-                ><a
-                  class="tag"
-                  href="https://github.com/katetiffanyquintobautista-cmd/"
-                  target="_blank"
-                  rel="noreferrer"
-                  >GitHub ↗</a
-                ><a
-                  class="tag"
-                  href="https://www.instagram.com/rable_tiff/"
-                  target="_blank"
-                  rel="noreferrer"
-                  >Instagram ↗</a
-                >
+              <div class="social-links" style="margin-top: 16px">
+                <a class="social-icon" href="mailto:katetiffanybautista@gmail.com" aria-label="Email Kate" title="Email">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7.5 8 6 8-6"/></svg>
+                </a>
+                <a class="social-icon" href="https://github.com/katetiffanyquintobautista-cmd/" target="_blank" rel="noopener noreferrer" aria-label="Kate on GitHub" title="GitHub">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.921.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </a>
+                <a class="social-icon" href="https://www.linkedin.com/in/YOUR-USERNAME/" target="_blank" rel="noopener noreferrer" aria-label="Kate on LinkedIn" title="LinkedIn">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a class="social-icon" href="https://www.instagram.com/rable_tiff/" target="_blank" rel="noopener noreferrer" aria-label="Kate on Instagram" title="Instagram">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+                </a>
               </div>
             </div>
-            <div class="contact-actions">
+            <div class="contact-actions with-chat">
+              <button type="button" class="chat-anim" id="chatAnim" aria-label="Click to play the chat bubble animation" title="Click me!">
+                <svg viewBox="0 0 240 210" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="cbRim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2c397"/><stop offset="1" stop-color="#d7975d"/></linearGradient>
+                    <linearGradient id="cbFace" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8d3ab"/><stop offset="1" stop-color="#f4c797"/></linearGradient>
+                    <linearGradient id="cbPink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbaac4"/><stop offset="1" stop-color="#e8668f"/></linearGradient>
+                    <path id="cbHeartShape" d="M0 14 C-22 -2 -18 -18 -8 -18 C-3 -18 0 -14 0 -11 C0 -14 3 -18 8 -18 C18 -18 22 -2 0 14 Z"/>
+                  </defs>
+
+                  <ellipse class="cb-shadow" cx="120" cy="196" rx="64" ry="6.5" fill="#3a0f22"/>
+
+                  <g class="cb-jump"><g class="cb-float">
+                    <!-- back bubble -->
+                    <g fill="url(#cbRim)" stroke="#dc9f66" stroke-width="7" stroke-linejoin="round">
+                      <ellipse cx="80" cy="132" rx="50" ry="38"/><polygon points="46,150 33,174 76,162" fill="#e2a66d"/>
+                    </g>
+                    <ellipse cx="80" cy="132" rx="46" ry="34" fill="url(#cbRim)"/>
+                    <ellipse cx="80" cy="132" rx="39" ry="28" fill="url(#cbFace)" stroke="#e2aa78" stroke-width="1.5"/>
+                    <g fill="#dca06b"><rect x="56" y="120" width="17" height="5" rx="2.5"/><rect x="77" y="120" width="9" height="5" rx="2.5"/><rect x="56" y="131" width="10" height="5" rx="2.5"/><rect x="70" y="131" width="22" height="5" rx="2.5"/></g>
+                    <!-- front bubble -->
+                    <g fill="url(#cbRim)" stroke="#dc9f66" stroke-width="7" stroke-linejoin="round">
+                      <ellipse cx="146" cy="88" rx="58" ry="48"/><polygon points="176,126 205,152 158,140" fill="#e2a66d"/>
+                    </g>
+                    <ellipse cx="146" cy="88" rx="62" ry="52" fill="url(#cbRim)"/>
+                    <polygon points="174,128 203,152 158,141" fill="#e2a66d"/>
+                    <ellipse cx="146" cy="88" rx="53" ry="43" fill="url(#cbFace)" stroke="#e2aa78" stroke-width="2"/>
+                    <path d="M104 70 Q120 48 150 47" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/>
+                    <g transform="translate(146 90)">
+                      <g class="cb-heart">
+                        <use href="#cbHeartShape" transform="scale(1.55)" fill="#dc9f66"/>
+                        <use href="#cbHeartShape" transform="scale(1.38)" fill="#f6cfa6"/>
+                        <use href="#cbHeartShape" transform="scale(1.1)" fill="url(#cbPink)"/>
+                        <ellipse cx="-6" cy="-9" rx="4.5" ry="2.6" transform="rotate(-35 -6 -9)" fill="#fff" fill-opacity=".6"/>
+                      </g>
+                    </g>
+                  </g></g>
+
+                  <!-- sparkle lines when clicked -->
+                  <g class="cb-spark" stroke="#8b6a58" stroke-width="2.4" stroke-linecap="round" fill="none">
+                    <path d="M96 38 l-8 -6 M104 30 l-3 -9 M88 48 l-10 -2"/>
+                    <path d="M196 36 l7 -7 M188 28 l2 -9 M204 46 l10 -1"/>
+                  </g>
+
+
+                  <!-- motion lines + dust when it bounces -->
+                  <g class="cb-motion" stroke="#8b6a58" stroke-width="2.2" stroke-linecap="round" fill="none">
+                    <path d="M82 30 q-9 9 -7 22 M92 22 q-8 6 -8 14"/>
+                    <path d="M214 38 q9 8 6 22 M204 28 q8 5 9 13"/>
+                  </g>
+                  <g class="cb-dust" stroke="#8b6a58" stroke-width="2.2" stroke-linecap="round" fill="none">
+                    <path d="M64 192 q-9 -4 -14 2 M74 186 q-5 -8 -12 -6"/>
+                    <path d="M176 192 q9 -4 14 2 M166 186 q5 -8 12 -6"/>
+                  </g>
+                </svg>
+              </button>
               <a
                 class="btn"
                 id="emailButton"
@@ -142,5 +268,20 @@
       </div>
     </div>
     <script src="portfolio.js"></script>
+    <script>
+      /* the bubbles rest until someone clicks / taps them; then the tap the heart -> bounce plays once */
+      (function () {
+        var b = document.getElementById("chatAnim");
+        if (!b) return;
+        var timer;
+        b.addEventListener("click", function () {
+          b.classList.remove("is-playing");
+          void b.offsetWidth;                 /* restart if clicked again mid-animation */
+          b.classList.add("is-playing");
+          clearTimeout(timer);
+          timer = setTimeout(function () { b.classList.remove("is-playing"); }, 3600);
+        });
+      })();
+    </script>
   </body>
 </html>

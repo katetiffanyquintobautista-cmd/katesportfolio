@@ -32,7 +32,7 @@
 
   // ---------------------------------------------------------------
   // SIDEBAR: the icon for the page you're on is highlighted (also hard-coded in each
-  // page's HTML so there's no flash). Scrolling never changes it and never touches the URL,
+  // page's HTML so there's no flash). On the home page the bubble below follows your scroll, but it never touches the URL,
   // so refresh / back / forward always land on the page you were on.
   // ---------------------------------------------------------------
   const page = document.body.dataset.page || "home";
@@ -42,6 +42,116 @@
     if (on) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   });
+
+  // ---------------------------------------------------------------
+  // SIDEBAR BUBBLE (nav indicator)
+  //  1) Between pages: a pink bubble glides from the previous page's icon to this page's icon.
+  //  2) On the home page: while you scroll Home > About > Work > Skills > Contact,
+  //     the bubble follows and moves to the icon of the section you're in.
+  //  Colors / timing: edit the CSS string below.
+  // ---------------------------------------------------------------
+  (() => {
+    const nav = document.querySelector(".side-nav");
+    if (!nav) return;
+    let active = nav.querySelector("a.active");
+    if (!active) return;
+
+    const style = document.createElement("style");
+    style.textContent =
+      ".side-nav{position:relative}" +
+      ".side-nav a{position:relative;z-index:1}" +
+      ".side-nav a.active{background:transparent!important;box-shadow:none!important}" +
+      ".nav-bubble{position:absolute;z-index:0;pointer-events:none;border-radius:16px;" +
+      "background:var(--blush,#f6c9d8);box-shadow:0 6px 16px rgba(133,14,53,.22);opacity:0;will-change:transform,width,height}" +
+      ".nav-bubble.ready{opacity:1}" +
+      ".nav-bubble.glide{transition:left .55s cubic-bezier(.5,1.4,.4,1),top .55s cubic-bezier(.5,1.4,.4,1),width .4s ease,height .4s ease}" +
+      "@media (prefers-reduced-motion:reduce){.nav-bubble.glide{transition:none}}";
+    document.head.appendChild(style);
+
+    const bubble = document.createElement("span");
+    bubble.className = "nav-bubble";
+    bubble.setAttribute("aria-hidden", "true");
+    nav.insertBefore(bubble, nav.firstChild);
+
+    const place = (link) => {
+      bubble.style.left = link.offsetLeft + "px";
+      bubble.style.top = link.offsetTop + "px";
+      bubble.style.width = link.offsetWidth + "px";
+      bubble.style.height = link.offsetHeight + "px";
+    };
+
+    const KEY = "kateNavPrev";
+    const remember = (section) => { try { sessionStorage.setItem(KEY, section); } catch (_) {} };
+
+    let current = active.dataset.section;
+    let prev = null;
+    try { prev = sessionStorage.getItem(KEY); } catch (_) {}
+    remember(current);
+
+    // a refresh keeps you on the same page, so don't glide then
+    const navEntry = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+    const isReload = !!navEntry && navEntry.type === "reload";
+    const from = !isReload && prev && prev !== current ? nav.querySelector('a[data-section="' + prev + '"]') : null;
+
+    if (from) {
+      place(from); // start on the icon you came from
+      bubble.classList.add("ready");
+      void bubble.offsetWidth;
+      setTimeout(() => { bubble.classList.add("glide"); place(active); }, 120); // then glide to this page's icon
+    } else {
+      place(active);
+      bubble.classList.add("ready");
+    }
+
+    // icons may finish loading after this runs: re-measure once everything is in
+    window.addEventListener("load", () => place(active));
+
+    // move the bubble (and the active state) to another section's icon
+    const setSection = (section) => {
+      const link = nav.querySelector('a[data-section="' + section + '"]');
+      if (!link || link === active) return;
+      active.classList.remove("active");
+      active.removeAttribute("aria-current");
+      link.classList.add("active");
+      link.setAttribute("aria-current", "page");
+      active = link;
+      current = section;
+      remember(section);
+      bubble.classList.add("glide");
+      place(link);
+    };
+
+    // scroll-spy: only on the one-page home
+    const map = [
+      ["home", ["home"]],
+      ["about", ["about", "certificates"]],
+      ["work", ["work"]],
+      ["skills", ["skills"]],
+      ["contact", ["contact"]],
+    ]
+      .map(([key, ids]) => ({ key, els: ids.map((id) => document.getElementById(id)).filter(Boolean) }))
+      .filter((m) => m.els.length);
+
+    if (page === "home" && map.length > 1) {
+      let ticking = false;
+      const spy = () => {
+        ticking = false;
+        const probe = window.innerHeight * 0.35; // the "reading line" (raise/lower to change when icons switch)
+        let found = map[0].key;
+        map.forEach((m) => { if (m.els[0].getBoundingClientRect().top <= probe) found = m.key; });
+        const lastGroup = map[map.length - 1];
+        const lastEl = lastGroup.els[lastGroup.els.length - 1];
+        if (lastEl.getBoundingClientRect().bottom <= window.innerHeight + 4) found = lastGroup.key; // very bottom = Contact
+        if (found !== current) setSection(found);
+      };
+      const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(spy); } };
+      document.addEventListener("scroll", onScroll, true);
+      window.addEventListener("resize", onScroll);
+      setTimeout(spy, 400); // after the page has settled / restored its scroll
+    }
+
+    window.addEventListener("resize", () => { bubble.classList.remove("glide"); place(active); });
+  })();
 
   // ---------------------------------------------------------------
   // LINK HANDLING (one listener for the whole site)
@@ -170,23 +280,135 @@
 
   // CERTIFICATE LOOP: i-clone ang mga card para seamless ang auto-scroll.
   // Usba ra ang unang set sa cards sa HTML; ang copies automatic na.
+  // Auto-scroll ug manual side-scroll (swipe / drag / trackpad / Shift+wheel) walay scrollbar.
   (() => {
     const track = document.querySelector(".cert-marquee-track");
     if (!track) return;
+    const box = track.closest(".cert-marquee-container");
     const originals = [...track.children];
     if (!originals.length) return;
     const setWidth = track.scrollWidth;
     if (!setWidth) return; // not laid out yet (e.g. hidden): avoid dividing by 0
     const screenW = Math.max(window.innerWidth, window.screen ? window.screen.width : 0);
     const k = Math.max(1, Math.ceil(screenW / setWidth)); // enough cards para walay blank sa wide screens
-    for (let i = 1; i < 2 * k; i++) {
+    const addSet = () => {
       originals.forEach((card) => {
         const copy = card.cloneNode(true);
         copy.setAttribute("aria-hidden", "true");
         copy.dataset.clone = "1";
         track.appendChild(copy);
       });
+    };
+    for (let i = 1; i < 2 * k; i++) addSet();
+    if (!box) return;
+
+    // ---- auto-scroll + manual scroll (transform based; no scrollbar, no scrollLeft) ----
+    let sets = 2 * k;
+    const setW = () => track.offsetWidth / sets;
+    let guard = 0;
+    while (track.offsetWidth < box.clientWidth + 2 * setW() && guard++ < 6) { addSet(); sets++; }
+    box.classList.add("cert-js");
+
+    const SPEED = reduceMotionPref() ? 30 : 44; // auto-scroll, pixels per second
+    const RESUME_DELAY = 1500;                  // ms after the last touch / wheel before auto-scroll resumes
+    let W = setW();                             // width of ONE set = loop length
+    let x = 0;                                  // how far the strip is scrolled
+    let vel = 0;                                // momentum after a flick (px/s)
+    let last = performance.now();
+    let hovering = false, holdUntil = 0;
+    let pid = null, startX = 0, startPos = 0, moved = false, samples = [];
+
+    function reduceMotionPref() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+    const apply = () => {
+      x = ((x % W) + W) % W;
+      track.style.setProperty("transform", "translate3d(" + -x + "px,0,0)", "important");
+    };
+    const hold = () => { holdUntil = performance.now() + RESUME_DELAY; };
+
+    const frame = (now) => {
+      const dt = Math.min(now - last, 100) / 1000;
+      last = now;
+      if (pid === null) {
+        if (Math.abs(vel) > 8) {                // momentum after a flick
+          x += vel * dt;
+          vel *= Math.exp(-dt * 3.2);
+          hold();
+        } else {
+          vel = 0;
+          const paused = hovering || now < holdUntil ||
+            document.body.classList.contains("cert-open") || document.hidden;
+          if (!paused) x += SPEED * dt;
+        }
+        apply();
+      }
+      requestAnimationFrame(frame);
+    };
+
+    // touch / mouse / pen drag
+    box.addEventListener("pointerdown", (e) => {
+      if (pid !== null || (e.pointerType === "mouse" && e.button !== 0)) return;
+      pid = e.pointerId; moved = false; vel = 0;
+      startX = e.clientX; startPos = x;
+      samples = [{ t: performance.now(), x: e.clientX }];
+    });
+    box.addEventListener("pointermove", (e) => {
+      if (e.pointerId !== pid) return;
+      const dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) > 5) {
+        moved = true;
+        box.classList.add("is-dragging");
+        try { box.setPointerCapture(pid); } catch (_) {}
+      }
+      if (!moved) return;
+      x = startPos - dx; apply();
+      const t = performance.now();
+      samples.push({ t, x: e.clientX });
+      while (samples.length > 2 && t - samples[0].t > 100) samples.shift();
+    });
+    const endDrag = (e) => {
+      if (e.pointerId !== pid) return;
+      if (moved && e.type === "pointerup" && samples.length > 1) {
+        const a = samples[0], b = samples[samples.length - 1];
+        const dt = (b.t - a.t) / 1000;
+        if (dt > 0 && performance.now() - b.t < 80) vel = -(b.x - a.x) / dt;
+        vel = Math.max(-2500, Math.min(2500, vel));
+      }
+      try { box.releasePointerCapture(pid); } catch (_) {}
+      pid = null;
+      box.classList.remove("is-dragging");
+      hold();
+    };
+    box.addEventListener("pointerup", endDrag);
+    box.addEventListener("pointercancel", endDrag);
+    box.addEventListener("dragstart", (e) => e.preventDefault());
+
+    // a drag must not count as a click (so it doesn't open the certificate pop-up)
+    box.addEventListener("click", (e) => {
+      if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
+    }, true);
+
+    // trackpad / horizontal wheel / Shift + wheel (plain vertical wheel still scrolls the page)
+    box.addEventListener("wheel", (e) => {
+      const horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+      if (!horizontal && !e.shiftKey) return;
+      e.preventDefault();
+      x += horizontal ? e.deltaX : e.deltaY;
+      vel = 0; apply(); hold();
+    }, { passive: false });
+
+    // pause while a real mouse hovers the strip
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      box.addEventListener("mouseenter", () => { hovering = true; });
+      box.addEventListener("mouseleave", () => { hovering = false; });
     }
+
+    // keyboard focus on a card must not shift the box natively
+    box.addEventListener("scroll", () => { if (box.scrollLeft) box.scrollLeft = 0; }, { passive: true });
+    box.addEventListener("focusin", hold);
+
+    window.addEventListener("resize", () => { W = setW(); apply(); });
+    apply();
+    requestAnimationFrame((t) => { last = t; frame(t); });
   })();
 
   // CERTIFICATE POP-UP

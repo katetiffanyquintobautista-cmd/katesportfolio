@@ -1731,3 +1731,64 @@ html.no-vt .content.is-leaving {
   -webkit-user-drag: none;
   pointer-events: none;
 }
+
+/* =====================================================================
+   ALIGNMENT FIX: "kate." logo level with the top row (star / back link /
+   status pill) on every page, and the sidebar icons centered under the logo.
+   ===================================================================== */
+.sidebar-inner { padding-top: 34px; }          /* logo centre = centre of the 55px top row */
+.content-top { min-height: 55px; }             /* same row height on every page (star button is 55px) */
+.side-nav a.active { transform: none; }        /* the active icon was nudged 2px right of the logo */
+@media (max-width: 900px) {
+  .sidebar-inner { padding-top: 28px; }
+}
+@media (max-width: 600px) {
+  .sidebar-inner { padding-top: 9px; }         /* phone: the sidebar is a top bar, keep it as before */
+  .content-top { min-height: 0; }
+}
+
+/* =====================================================================
+   HOME: the hero card (and the cards beside it) start level with "kate."
+   The star button + "Open to learning" pill move inside the top-left of the
+   hero card instead of sitting in a row above it. Phones keep the old layout.
+   ===================================================================== */
+@media (min-width: 601px) {
+  body[data-page="home"] .content { position: relative; padding-top: 34px; }   /* card top = top of the "kate." logo */
+  body[data-page="home"] .content-top {
+    position: absolute;
+    z-index: 6;
+    top: 52px;                 /* 34px (content padding) + 18px inside the card */
+    left: 55px;                /* 25px (content padding) + 30px inside the card */
+    margin: 0;
+    min-height: 0;
+    width: auto;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+  body[data-page="home"] .hero-copy { padding-top: 83px; }                      /* room for the star + pill row */
+  /* the pill's text was removed in index.html, so it would show as an empty capsule on the card.
+     Delete this one rule if you put the "Open to learning opportunities" text back. */
+  body[data-page="home"] .content-top .status-pill { display: none; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  body[data-page="home"] .content { padding-top: 28px; }
+  body[data-page="home"] .content-top { top: 44px; left: 45px; }
+  body[data-page="home"] .hero-copy { padding-top: 81px; }
+}
+
+/* =====================================================================
+   HOME: the right column now has two cards (Creative space + Current chapter).
+   Creative space grows to fill the height beside the hero card.
+   ===================================================================== */
+.right-column .panel:first-child { flex: 1; display: flex; flex-direction: column; }
+.right-column .panel:first-child .creative-playground { flex: 1; min-height: 170px; display: flex; flex-direction: column; }
+.right-column .panel:first-child .creative-idea { margin-top: auto; font-size: 1.45rem; }  /* label on top, text settles at the bottom */
+.creative-playground .sticker-flower { position: absolute; z-index: 1; }              /* the flower already had right/bottom set, it just was never positioned */
+@media (max-width: 900px) {
+  .right-column { grid-template-columns: 1fr; }          /* tablet: Creative space, then Current chapter, full width */
+  .right-column .panel:first-child { grid-row: auto; }   /* was spanning two rows for the removed card */
+}
+@media (max-width: 600px) {
+  .right-column .panel { grid-column: 1 / -1; }          /* each card full width on phones */
+  .right-column .panel:first-child { grid-column: 1 / -1; }
+}

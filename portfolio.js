@@ -520,7 +520,7 @@
   // 2) (Optional) Kung gusto nimo nga diretso na ma-send (dili na mo-open ang email app),
   //    butangi og endpoint ang HELLO_ENDPOINT, pananglitan Formspree: "https://formspree.io/f/xxxxxxxx".
   (() => {
-    const HELLO_EMAIL = "your.email@example.com";
+    const HELLO_EMAIL = "katetiffanybautista@gmail.com";
     const HELLO_ENDPOINT = "";
 
     const btn = document.getElementById("emailButton");
